@@ -4,7 +4,7 @@
   "description": "Gilded Rose kata in JavaScript with Jest",
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage"
   },
   "repository": {
@@ -24,5 +24,8 @@
   "homepage": "https://github.com/emilybache/GildedRose-Refactoring-Kata",
   "devDependencies": {
     "jest": "^24.9.0"
+  },
+  "dependencies": {
+    "eslint": "^6.6.0"
   }
 }
