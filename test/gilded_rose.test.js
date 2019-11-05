@@ -21,7 +21,7 @@ describe('Gilded Rose', function() {
 		});
 	})
 
-	describe('-BackStagePass', function(){
+	describe('-Legendary', function(){
 		it('should return "Sulfuras", quality: 20, sellIn: null', function() {
 			const gildedRose = new Shop([ new Legendary('Sulfuras', 3, 20) ]);
 			const items = gildedRose.updateQuality();
