@@ -1,3 +1,8 @@
+const CONCERT_DAY = 0;
+
+const MAX_QUALITY = 50;
+const MIN_QUALITY = 0;
+
 class Item {
 	constructor(name, sellIn, quality) {
 		this.name = name;
@@ -8,7 +13,7 @@ class Item {
 
 class BackStagePass extends Item {
 	updateQuality() {
-		if (this.sellIn < 0) {
+		if (isAfterConcertDay(this.sellIn)) {
 			this.quality = 0;
 		} else if (this.sellIn <= 5) {
 			this.quality += 3;
@@ -40,7 +45,7 @@ class Legendary extends Item {
 
 class Regular extends Item {
 	updateQuality() {
-		if (this.sellIn > 0) {
+		if (isBeforeConcertDay(this.sellIn)) {
 			this.quality -= 1;
 		} else {
 			this.quality -= 2;
@@ -69,11 +74,19 @@ class Shop {
 }
 
 function isWithinQualityRange(quality) {
-	return quality > 0 && quality < 50;
+	return quality > MIN_QUALITY && quality <= MAX_QUALITY;
 }
 
-function isAfterConcert(day) {
-	day < 0;
+function isAfterConcertDay(day) {
+	return day < CONCERT_DAY;
+}
+
+function isBeforeConcertDay(day) {
+	return day > CONCERT_DAY;
+}
+
+function isConcertDay(day) {
+	return day === CONCERT_DAY;
 }
 
 module.exports = {
