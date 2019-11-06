@@ -13,14 +13,15 @@ class Item {
 
 class BackStagePass extends Item {
 	updateQuality() {
+		let quality = this.quality;
 		if (isAfterConcertDay(this.sellIn)) {
-			this.quality = 0;
+			quality = 0;
 		} else if (this.sellIn <= 5) {
-			this.quality += 3;
+			quality += 3;
 		} else if (this.sellIn <= 10) {
-			this.quality += 2;
+			quality += 2;
 		}
-
+		this.quality = computeQuality(quality);
 		this.reduceSellIn();
 	}
 
@@ -45,11 +46,14 @@ class Legendary extends Item {
 
 class Regular extends Item {
 	updateQuality() {
-		if (isBeforeConcertDay(this.sellIn)) {
-			this.quality -= 1;
+		let quality = this.quality;
+		if (isBeforeOrOnConcertDay(this.sellIn)) {
+			quality -= 1;
 		} else {
-			this.quality -= 2;
+			quality -= 2;
 		}
+		this.quality = computeQuality(quality);
+
 		this.reduceSellIn();
 	}
 
@@ -73,16 +77,24 @@ class Shop {
 	}
 }
 
+function computeQuality(quality) {
+	if (isWithinQualityRange(quality)) {
+		return quality;
+	} else {
+		return quality < MIN_QUALITY ? MIN_QUALITY : MAX_QUALITY;
+	}
+}
+
 function isWithinQualityRange(quality) {
-	return quality > MIN_QUALITY && quality <= MAX_QUALITY;
+	return quality >= MIN_QUALITY && quality <= MAX_QUALITY;
 }
 
 function isAfterConcertDay(day) {
 	return day < CONCERT_DAY;
 }
 
-function isBeforeConcertDay(day) {
-	return day > CONCERT_DAY;
+function isBeforeOrOnConcertDay(day) {
+	return day >= CONCERT_DAY;
 }
 
 function isConcertDay(day) {

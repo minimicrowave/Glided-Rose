@@ -3,11 +3,11 @@ const { Shop, Item, Legendary, BackStagePass, Regular } = require('../src/gilded
 describe('Gilded Rose', function() {
 	describe('- Regular Item', function() {
 		it('should return "Foo", quality: -2, sellIn: -1', function() {
-			const gildedRose = new Shop([ new Regular('Foo', 0, 0) ]);
+			const gildedRose = new Shop([ new Regular('Foo', 3, 4) ]);
 			const items = gildedRose.updateQuality();
 			expect(items[0].name).toBe('Foo');
-			expect(items[0].quality).toBe(-2);
-			expect(items[0].sellIn).toBe(-1);
+			expect(items[0].quality).toBe(3);
+			expect(items[0].sellIn).toBe(2);
 		});
 
 		it('should return "Bar", quality: 3, sellIn: 2', function() {
