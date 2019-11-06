@@ -25,15 +25,31 @@ class BackStagePass extends Item {
 }
 
 class Legendary extends Item {
-	constructor(name, sellIn, quality) {
+	constructor(name, _, quality) {
 		super(name, null, quality);
 	}
+
 	updateQuality() {
 		console.log('Legendary does not decrease in quality.');
 	}
 
 	reduceSellIn() {
 		console.log('Lengendary Item never has to be sold.');
+	}
+}
+
+class Regular extends Item {
+	updateQuality() {
+		if (this.sellIn > 0) {
+			this.quality -= 1;
+		} else {
+			this.quality -= 2;
+		}
+		this.reduceSellIn();
+	}
+
+	reduceSellIn() {
+		this.sellIn -= 1;
 	}
 }
 
@@ -44,53 +60,7 @@ class Shop {
 
 	updateQuality() {
 		this.items = this.items.map((item) => {
-			if (item.quality) {
-				item.updateQuality();
-			} else {
-				if (item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert') {
-					if (item.quality > 0) {
-						if (item.name != 'Sulfuras, Hand of Ragnaros') {
-							item.quality -= 1;
-						}
-					}
-				} else {
-					if (item.quality < 50) {
-						item.quality += 1;
-						if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-							if (item.sellIn < 11) {
-								if (item.quality < 50) {
-									item.quality += 1;
-								}
-							}
-							if (item.sellIn < 6) {
-								if (item.quality < 50) {
-									item.quality += 1;
-								}
-							}
-						}
-					}
-				}
-				if (item.name != 'Sulfuras, Hand of Ragnaros') {
-					item.sellIn = item.sellIn - 1;
-				}
-				if (item.sellIn < 0) {
-					if (item.name != 'Aged Brie') {
-						if (item.name != 'Backstage passes to a TAFKAL80ETC concert') {
-							if (item.quality > 0) {
-								if (item.name != 'Sulfuras, Hand of Ragnaros') {
-									item.quality -= 1;
-								}
-							}
-						} else {
-							item.quality = item.quality - item.quality;
-						}
-					} else {
-						if (item.quality < 50) {
-							item.quality += 1;
-						}
-					}
-				}
-			}
+			item.updateQuality();
 			return item;
 		});
 
@@ -110,5 +80,6 @@ module.exports = {
 	Item,
 	Shop,
 	Legendary,
-	BackStagePass
+	BackStagePass,
+	Regular
 };
