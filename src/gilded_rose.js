@@ -1,8 +1,6 @@
-const {
-	CONCERT_DAY,
-	MAX_QUALITY,
-	MIN_QUALITY,
-} = require('./consts');
+const { CONCERT_DAY, MAX_QUALITY, MIN_QUALITY } = require('./consts');
+const { computeQuality } = require('./utils/quality');
+const { isAfterConcertDay, isBeforeOrOnConcertDay } = require('./utils/sellIn')
 
 class Item {
 	constructor(name, sellIn, quality) {
@@ -75,30 +73,6 @@ class Shop {
 
 		return this.items;
 	}
-}
-
-function computeQuality(quality) {
-	if (isWithinQualityRange(quality)) {
-		return quality;
-	} else {
-		return quality < MIN_QUALITY ? MIN_QUALITY : MAX_QUALITY;
-	}
-}
-
-function isWithinQualityRange(quality) {
-	return quality >= MIN_QUALITY && quality <= MAX_QUALITY;
-}
-
-function isAfterConcertDay(day) {
-	return day < CONCERT_DAY;
-}
-
-function isBeforeOrOnConcertDay(day) {
-	return day >= CONCERT_DAY;
-}
-
-function isConcertDay(day) {
-	return day === CONCERT_DAY;
 }
 
 module.exports = {
