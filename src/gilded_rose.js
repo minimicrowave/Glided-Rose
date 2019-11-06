@@ -1,7 +1,8 @@
-const CONCERT_DAY = 0;
-
-const MAX_QUALITY = 50;
-const MIN_QUALITY = 0;
+const {
+	CONCERT_DAY,
+	MAX_QUALITY,
+	MIN_QUALITY,
+} = require('./consts');
 
 class Item {
 	constructor(name, sellIn, quality) {
@@ -15,7 +16,7 @@ class BackStagePass extends Item {
 	updateQuality() {
 		let quality = this.quality;
 		if (isAfterConcertDay(this.sellIn)) {
-			quality = 0;
+			quality = MIN_QUALITY;
 		} else if (this.sellIn <= 5) {
 			quality += 3;
 		} else if (this.sellIn <= 10) {
@@ -36,7 +37,7 @@ class Legendary extends Item {
 	}
 
 	updateQuality() {
-		console.log('Legendary does not decrease in quality.');
+		console.log('Legendary Item does not decrease in quality.');
 	}
 
 	reduceSellIn() {
@@ -68,9 +69,8 @@ class Shop {
 	}
 
 	updateQuality() {
-		this.items = this.items.map((item) => {
+		this.items.forEach((item) => {
 			item.updateQuality();
-			return item;
 		});
 
 		return this.items;
